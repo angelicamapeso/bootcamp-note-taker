@@ -6,6 +6,8 @@ const PORT = 3000;
 //creates express application
 const app = express();
 
+//----- Paths -----//
+//Home
 app.get('/', function(req, res) {
   res.send('Server has started!');
 });
