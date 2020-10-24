@@ -22,6 +22,7 @@ app.get('/notes', function(req, res) {
 });
 
 //API
+//get
 app.get('/api/notes', function(req, res) {
   fs.readFile(path.join(__dirname, 'db', 'db.json'), (err, data) => {
     if (err) throw err;
