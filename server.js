@@ -15,6 +15,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+//Notes
+app.get('/notes', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'notes.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);
