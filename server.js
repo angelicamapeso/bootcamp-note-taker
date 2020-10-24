@@ -10,7 +10,7 @@ const app = express();
 //----- Paths -----//
 //Home
 app.get('/', function(req, res) {
-  res.send('Server has started!');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
