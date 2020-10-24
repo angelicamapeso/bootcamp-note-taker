@@ -32,6 +32,22 @@ app.get('/api/notes', function(req, res) {
     res.json(notes);
   });
 });
+//post
+app.post('/api/notes', function(req, res) {
+  const newNote = req.body;
+  fs.readFile(path.join(__dirname, 'db', 'db.json'), (err, data) => {
+    if (err) throw err;
+    const existingNotes = JSON.parse(data);
+    //to add unique id to new note
+    newNote.id = existingNotes.length;
+    existingNotes.push(newNote);
+    const newNoteList = JSON.stringify(existingNotes);
+    fs.writeFile(path.join(__dirname, 'db', 'db.json'), newNoteList,(err) => {
+      if (err) throw err;
+      res.json(existingNotes);
+    });
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);
