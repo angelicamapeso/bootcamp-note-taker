@@ -33,26 +33,26 @@ app.get('/notes', function(req, res) {
 //get
 app.get('/api/notes', function(req, res) {
   fs.readFile(NOTES_DATABASE, (err, data) => {
-    const notes = handleReadNotes(err, data);
-    res.json(notes);
+    const currentNotes = handleReadNotes(err, data);
+    res.json(currentNotes);
   });
 });
 //post
 app.post('/api/notes', function(req, res) {
   const newNote = req.body;
   fs.readFile(NOTES_DATABASE, (err, data) => {
-    const existingNotes = handleReadNotes(err, data);
-    addNote(newNote, existingNotes);
-    writeAndSendNotes(existingNotes, res);
+    const currentNotes = handleReadNotes(err, data);
+    addNote(newNote, currentNotes);
+    writeAndSendNotes(currentNotes, res);
   });
 });
 //delete
 app.delete('/api/notes/:id', function(req, res) {
   const id = parseInt(req.params.id);
   fs.readFile(NOTES_DATABASE, (err, data) => {
-    const notes = handleReadNotes(err, data);
-    deleteNote(id, notes);
-    writeAndSendNotes(notes, res);
+    const currentNotes = handleReadNotes(err, data);
+    deleteNote(id, currentNotes);
+    writeAndSendNotes(currentNotes, res);
   });
 });
 
