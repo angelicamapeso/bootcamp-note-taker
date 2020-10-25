@@ -33,8 +33,7 @@ app.get('/notes', function(req, res) {
 //get
 app.get('/api/notes', function(req, res) {
   fs.readFile(NOTES_DATABASE, (err, data) => {
-    if (err) throw err;
-    const notes = JSON.parse(data);
+    const notes = handleReadNotes(err, data);
     res.json(notes);
   });
 });
@@ -42,8 +41,7 @@ app.get('/api/notes', function(req, res) {
 app.post('/api/notes', function(req, res) {
   const newNote = req.body;
   fs.readFile(NOTES_DATABASE, (err, data) => {
-    if (err) throw err;
-    const existingNotes = JSON.parse(data);
+    const existingNotes = handleReadNotes(err, data);
     //to add unique id to new note
     newNote.id = idCount++;
     existingNotes.push(newNote);
@@ -54,8 +52,7 @@ app.post('/api/notes', function(req, res) {
 app.delete('/api/notes/:id', function(req, res) {
   const id = parseInt(req.params.id);
   fs.readFile(NOTES_DATABASE, (err, data) => {
-    if (err) throw err;
-    const notes = JSON.parse(data);
+    const notes = handleReadNotes(err, data);
     let noteIndex;
     notes.forEach(function(note, index){
       if (note.id === id) {
@@ -74,6 +71,11 @@ function writeAndSendNotes(noteList, res) {
     if (err) throw err;
     res.json(noteList);
   });
+}
+
+function handleReadNotes(err, data) {
+  if (err) throw err;
+  return JSON.parse(data);
 }
 
 app.listen(PORT, () => {
