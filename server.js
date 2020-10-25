@@ -51,6 +51,26 @@ app.post('/api/notes', function(req, res) {
     });
   });
 });
+//delete
+app.delete('/api/notes/:id', function(req, res) {
+  const id = parseInt(req.params.id);
+  fs.readFile(path.join(__dirname, 'db', 'db.json'), (err, data) => {
+    if (err) throw err;
+    const notes = JSON.parse(data);
+    let noteIndex;
+    notes.forEach(function(note, index){
+      if (note.id === id) {
+        noteIndex = index;
+      }
+    });
+    notes.splice(noteIndex, 1);
+    const newNoteList = JSON.stringify(notes);
+    fs.writeFile(path.join(__dirname, 'db', 'db.json'), newNoteList,(err) => {
+      if (err) throw err;
+      res.json(notes);
+    });
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);
