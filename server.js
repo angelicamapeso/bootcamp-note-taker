@@ -13,6 +13,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//id counter
+let idCount = 0;
+
 //----- Paths -----//
 //Home
 app.get('/', function(req, res) {
@@ -39,7 +42,7 @@ app.post('/api/notes', function(req, res) {
     if (err) throw err;
     const existingNotes = JSON.parse(data);
     //to add unique id to new note
-    newNote.id = existingNotes.length;
+    newNote.id = idCount++;
     existingNotes.push(newNote);
     const newNoteList = JSON.stringify(existingNotes);
     fs.writeFile(path.join(__dirname, 'db', 'db.json'), newNoteList,(err) => {
