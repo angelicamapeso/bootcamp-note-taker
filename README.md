@@ -4,7 +4,10 @@
 
 :link: [View the deployed project](https://secure-refuge-95482.herokuapp.com/)
 
-A note-taking application built with [Express](https://expressjs.com/).
+A simple note-taking application built with [Express](https://expressjs.com/). Users can:
+- Add notes
+- Delete notes
+- View existing notes
 
 A user story, acceptance criteria and starter code were given for this assignment. The starter code contained all of the front-end assets as well as a sample object in the `db.json` file.
 
