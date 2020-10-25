@@ -17,6 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 //ids with 0 will not render (falsey)
 let idCount = 1;
 
+const NOTES_DATABASE = path.join(__dirname, 'db', 'db.json');
+
 //----- Paths -----//
 //Home
 app.get('/', function(req, res) {
@@ -30,7 +32,7 @@ app.get('/notes', function(req, res) {
 //API
 //get
 app.get('/api/notes', function(req, res) {
-  fs.readFile(path.join(__dirname, 'db', 'db.json'), (err, data) => {
+  fs.readFile(NOTES_DATABASE, (err, data) => {
     if (err) throw err;
     const notes = JSON.parse(data);
     res.json(notes);
@@ -39,7 +41,7 @@ app.get('/api/notes', function(req, res) {
 //post
 app.post('/api/notes', function(req, res) {
   const newNote = req.body;
-  fs.readFile(path.join(__dirname, 'db', 'db.json'), (err, data) => {
+  fs.readFile(NOTES_DATABASE, (err, data) => {
     if (err) throw err;
     const existingNotes = JSON.parse(data);
     //to add unique id to new note
@@ -55,7 +57,7 @@ app.post('/api/notes', function(req, res) {
 //delete
 app.delete('/api/notes/:id', function(req, res) {
   const id = parseInt(req.params.id);
-  fs.readFile(path.join(__dirname, 'db', 'db.json'), (err, data) => {
+  fs.readFile(NOTES_DATABASE, (err, data) => {
     if (err) throw err;
     const notes = JSON.parse(data);
     let noteIndex;
