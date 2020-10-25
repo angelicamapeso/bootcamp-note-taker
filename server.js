@@ -47,11 +47,7 @@ app.post('/api/notes', function(req, res) {
     //to add unique id to new note
     newNote.id = idCount++;
     existingNotes.push(newNote);
-    const newNoteList = JSON.stringify(existingNotes);
-    fs.writeFile(path.join(__dirname, 'db', 'db.json'), newNoteList,(err) => {
-      if (err) throw err;
-      res.json(existingNotes);
-    });
+    writeAndSendNotes(existingNotes, res);
   });
 });
 //delete
@@ -67,13 +63,18 @@ app.delete('/api/notes/:id', function(req, res) {
       }
     });
     notes.splice(noteIndex, 1);
-    const newNoteList = JSON.stringify(notes);
-    fs.writeFile(path.join(__dirname, 'db', 'db.json'), newNoteList,(err) => {
-      if (err) throw err;
-      res.json(notes);
-    });
+    writeAndSendNotes(notes, res);
   });
 });
+
+//----- Additional Functions -----//
+function writeAndSendNotes(noteList, res) {
+  const JSONNoteList = JSON.stringify(noteList);
+  fs.writeFile(NOTES_DATABASE, JSONNoteList, (err) => {
+    if (err) throw err;
+    res.json(noteList);
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);
