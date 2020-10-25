@@ -13,8 +13,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//id counter
-let idCount = 0;
+//id counter must start at 1
+//ids with 0 will not render (falsey)
+let idCount = 1;
 
 //----- Paths -----//
 //Home
