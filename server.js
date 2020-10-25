@@ -86,6 +86,7 @@ function deleteNote(id, currentNotes) {
   currentNotes.splice(noteIndex, 1);
 }
 
+//----- Start listening -----//
 app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);
 });
