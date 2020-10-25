@@ -42,9 +42,7 @@ app.post('/api/notes', function(req, res) {
   const newNote = req.body;
   fs.readFile(NOTES_DATABASE, (err, data) => {
     const existingNotes = handleReadNotes(err, data);
-    //to add unique id to new note
-    newNote.id = idCount++;
-    existingNotes.push(newNote);
+    addNote(newNote, existingNotes);
     writeAndSendNotes(existingNotes, res);
   });
 });
@@ -76,6 +74,12 @@ function writeAndSendNotes(noteList, res) {
 function handleReadNotes(err, data) {
   if (err) throw err;
   return JSON.parse(data);
+}
+
+function addNote(newNote, currentNotes) {
+  //to add unique id to new note
+  newNote.id = idCount++;
+  currentNotes.push(newNote);
 }
 
 app.listen(PORT, () => {
