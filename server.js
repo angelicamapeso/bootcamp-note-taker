@@ -51,13 +51,7 @@ app.delete('/api/notes/:id', function(req, res) {
   const id = parseInt(req.params.id);
   fs.readFile(NOTES_DATABASE, (err, data) => {
     const notes = handleReadNotes(err, data);
-    let noteIndex;
-    notes.forEach(function(note, index){
-      if (note.id === id) {
-        noteIndex = index;
-      }
-    });
-    notes.splice(noteIndex, 1);
+    deleteNote(id, notes);
     writeAndSendNotes(notes, res);
   });
 });
@@ -80,6 +74,16 @@ function addNote(newNote, currentNotes) {
   //to add unique id to new note
   newNote.id = idCount++;
   currentNotes.push(newNote);
+}
+
+function deleteNote(id, currentNotes) {
+  let noteIndex;
+  currentNotes.forEach(function(note, index){
+    if (note.id === id) {
+      noteIndex = index;
+    }
+  });
+  currentNotes.splice(noteIndex, 1);
 }
 
 app.listen(PORT, () => {
